@@ -15,6 +15,9 @@ export default function Gift({ id, name }: { id: string; name: string }) {
             router.push(`/registries/${registryId}`);
             router.push(`/registries/${registryId}/gifts/${giftId}`);
         }
+        if (!params.giftId && giftOpenMode) {
+            router.push(`/registries/${params.registryId}`);
+        }
     }, [params.giftId]);
 
     return (

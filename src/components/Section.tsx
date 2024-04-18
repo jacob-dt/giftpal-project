@@ -4,6 +4,7 @@ import { Gift, useMutation, useStorage } from "@/app/liveblocks.config";
 import { shallow } from "@liveblocks/core";
 import GiftCreationForm from "./forms/GiftCreationForm";
 import { default as SectionGift } from "./Gift";
+import ButtonCancelGiftEdit from "./ButtonCancelGiftEdit";
 
 type SectionProps = {
     id: string;
@@ -111,12 +112,9 @@ export default function Section({ id, name }: SectionProps) {
                             </button>
                         </div>
                     </form>
-                    <button
+                    <ButtonCancelGiftEdit
                         onClick={() => setSectionTitleRenameMode(false)}
-                        className="w-full mt-2"
-                    >
-                        Cancel
-                    </button>
+                    />
                 </div>
             )}
 

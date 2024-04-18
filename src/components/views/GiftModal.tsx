@@ -3,6 +3,8 @@ import { FormEvent, useContext, useEffect, useState } from "react";
 import { RegistryContext, RegistryContextProps } from "../RegistryContext";
 import { Gift, useMutation, useStorage } from "@/app/liveblocks.config";
 import { shallow } from "@liveblocks/core";
+import ConfirmGiftDelete from "../ConfirmGiftDelete";
+import ButtonCancelGiftEdit from "../ButtonCancelGiftEdit";
 
 export default function GiftModal() {
     const router = useRouter();
@@ -24,11 +26,26 @@ export default function GiftModal() {
         }
     }, []);
 
+    const giftDeletion = useMutation(({ storage }, id) => {
+        const gifts = storage.get("gifts");
+        const giftIndex = gifts.findIndex((gift) => gift.toObject().id === id);
+        gifts.delete(giftIndex);
+    }, []);
+
     useEffect(() => {
         if (params.giftId && setGiftOpenMode) {
             setGiftOpenMode(params.giftId.toString());
         }
     }, [params]);
+
+    function deleteHandler() {
+        giftDeletion(params.giftId);
+        if (setGiftOpenMode) {
+            setGiftOpenMode(null);
+        }
+
+        router.back();
+    }
 
     function giftBackgroundClickHandler() {
         router.back();
@@ -74,12 +91,19 @@ export default function GiftModal() {
                                 defaultValue={gift?.name}
                                 className="mb-2"
                             />
-                            <button className="bg-green-600 py-2 px-4 rounded-lg">
+                            <button className="bg-green-600 py-2 px-4 rounded-lg w-full mb-2">
                                 Save
                             </button>
                         </form>
+                        <ConfirmGiftDelete
+                            onDeleteProperty={() => deleteHandler()}
+                        />
+                        <ButtonCancelGiftEdit
+                            onClick={() => setEditorMode(false)}
+                        />
                     </div>
                 )}
+                {!editorMode && <div></div>}
             </div>
         </div>
     );
