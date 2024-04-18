@@ -16,7 +16,7 @@ export default function SectionCreationForm() {
         <form onSubmit={newSectionHandler} className="max-w-xs">
             <label className="block mb-2">
                 <span className="block">Section Name:</span>
-                <input type="text" placeholder="New Section Name" />
+                <input type="text" placeholder="'buy', 'purchased', etc.." />
             </label>
             <button type="submit" className="w-full block">
                 Add Section

@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import type { Metadata } from "next";
 import "./globals.css";
+import MainHeading from "@/components/MainHeading";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,11 +18,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
-                <header className="p-7 bg-zinc-800 ">
-                    <a href="" className="logo">
-                        GiftPal
-                    </a>
-                </header>
+                <MainHeading />
                 <main className="p-8">{children}</main>
             </body>
         </html>
