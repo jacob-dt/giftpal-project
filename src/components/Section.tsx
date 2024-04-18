@@ -3,6 +3,7 @@ import { FormEvent, SetStateAction, useState } from "react";
 import { Gift, useMutation, useStorage } from "@/app/liveblocks.config";
 import { shallow } from "@liveblocks/core";
 import GiftCreationForm from "./forms/GiftCreationForm";
+import { default as SectionGift } from "./Gift";
 
 type SectionProps = {
     id: string;
@@ -127,12 +128,11 @@ export default function Section({ id, name }: SectionProps) {
                         group="gifts"
                     >
                         {sectionGifts.map((gift) => (
-                            <div
+                            <SectionGift
                                 key={gift.id}
-                                className="border border-indigo-700 bg-zinc-900 my-2 p-4 rounded-lg"
-                            >
-                                <span>{gift.name}</span>
-                            </div>
+                                id={gift.id}
+                                name={gift.name}
+                            />
                         ))}
                     </ReactSortable>
                 </>
