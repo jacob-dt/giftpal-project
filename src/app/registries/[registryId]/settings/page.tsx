@@ -1,7 +1,9 @@
 "use server";
 
+import UsersWithAccess from "@/components/UsersWithAccess";
 import RegistryUserAccess from "@/components/forms/RegistryUserAccessForm";
 import { liveblocksClient } from "@/lib/liveblocksClient";
+import { getUserEmail } from "@/lib/userClient";
 import Link from "next/link";
 
 type PageProps = {
@@ -13,7 +15,10 @@ type PageProps = {
 export default async function RegistrySettings({ params }: PageProps) {
     const { registryId } = params;
     const registryInformation = await liveblocksClient.getRoom(registryId);
-
+    const newUser = await getUserEmail();
+    if (!registryInformation.usersAccesses[newUser]) {
+        return "You Do Not Have Access To This Registry";
+    }
     return (
         <div>
             <Link
@@ -24,11 +29,10 @@ export default async function RegistrySettings({ params }: PageProps) {
             </Link>
             <h1 className="text-2xl">Share Your Registry:</h1>
             <div className="mb-10">
-                {Object.keys(registryInformation.usersAccesses).map(
-                    (userEmail) => (
-                        <div>{userEmail}</div>
-                    )
-                )}
+                <UsersWithAccess
+                    registryId={registryId}
+                    usersAccesses={registryInformation.usersAccesses}
+                />
             </div>
 
             <RegistryUserAccess registryId={registryId} />
