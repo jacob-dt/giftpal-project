@@ -1,12 +1,28 @@
 import { useParams, useRouter } from "next/navigation";
-import { useContext, useEffect } from "react";
+import { FormEvent, useContext, useEffect, useState } from "react";
 import { RegistryContext, RegistryContextProps } from "../RegistryContext";
+import { Gift, useMutation, useStorage } from "@/app/liveblocks.config";
+import { shallow } from "@liveblocks/core";
 
 export default function GiftModal() {
     const router = useRouter();
     const params = useParams();
     const { setGiftOpenMode } =
         useContext<RegistryContextProps>(RegistryContext);
+    const [editorMode, setEditorMode] = useState(false);
+
+    const gift = useStorage((root) => {
+        return root.gifts.find((g) => g.id === params.giftId);
+    }, shallow);
+
+    const giftUpdater = useMutation(({ storage }, giftId, dataUpdate) => {
+        const gifts = storage.get("gifts").map((gift) => gift.toObject());
+        const index = gifts.findIndex((gift) => gift.id === giftId);
+        const gift = storage.get("gifts").get(index);
+        for (let keyUpdate in dataUpdate) {
+            gift?.set(keyUpdate as keyof Gift, dataUpdate[keyUpdate]);
+        }
+    }, []);
 
     useEffect(() => {
         if (params.giftId && setGiftOpenMode) {
@@ -18,6 +34,18 @@ export default function GiftModal() {
         router.back();
     }
 
+    function giftTitleChangeHandler(event: FormEvent) {
+        event.preventDefault();
+        const titleInput = (event.target as HTMLFormElement).querySelector(
+            "input"
+        );
+        if (titleInput) {
+            const newGiftTitleName = titleInput.value;
+            giftUpdater(params.giftId, { name: newGiftTitleName });
+            setEditorMode(false);
+        }
+    }
+
     return (
         <div
             className="fixed inset-0 bg-black/70"
@@ -27,7 +55,31 @@ export default function GiftModal() {
                 onClick={(event) => event.stopPropagation()}
                 className="mt-32 max-w-sm mx-auto bg-zinc-800 p-4 rounded-lg"
             >
-                test
+                {!editorMode && (
+                    <div className="flex justify-between items-center">
+                        <h4>{gift?.name}</h4>
+                        <button
+                            onClick={() => setEditorMode(true)}
+                            className="bg-green-600 py-1 px-3 rounded-lg"
+                        >
+                            Edit
+                        </button>
+                    </div>
+                )}
+                {editorMode && (
+                    <div>
+                        <form onSubmit={giftTitleChangeHandler}>
+                            <input
+                                type="text"
+                                defaultValue={gift?.name}
+                                className="mb-2"
+                            />
+                            <button className="bg-green-600 py-2 px-4 rounded-lg">
+                                Save
+                            </button>
+                        </form>
+                    </div>
+                )}
             </div>
         </div>
     );
