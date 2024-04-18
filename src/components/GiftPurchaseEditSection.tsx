@@ -21,10 +21,6 @@ export default function GiftPurchaseEditSection({
 }: EditSectionProps) {
     const userInformation = useSelf((user) => user.info);
 
-    if (!userInformation) {
-        return;
-    }
-
     const editorObject = useEditor({
         extensions: [
             StarterKit.configure({
@@ -40,7 +36,7 @@ export default function GiftPurchaseEditSection({
             }),
             CollaborationCursor.configure({
                 provider,
-                user: userInformation,
+                user: userInformation || undefined,
             }),
             Link.configure({
                 openOnClick: true,
