@@ -1,5 +1,6 @@
 "use server";
 
+import RegistryRemoveButton from "@/components/RegistryRemoveButton";
 import UsersWithAccess from "@/components/UsersWithAccess";
 import RegistryUserAccess from "@/components/forms/RegistryUserAccessForm";
 import { liveblocksClient } from "@/lib/liveblocksClient";
@@ -20,13 +21,17 @@ export default async function RegistrySettings({ params }: PageProps) {
         return "You Do Not Have Access To This Registry";
     }
     return (
-        <div>
-            <Link
-                href={`/registries/${registryId}`}
-                className="mb-5 inline-flex items-center btn"
-            >
-                ← Return To Registry
-            </Link>
+        <div className="flex flex-col items-center justify-center">
+            <div className="flex justify-between">
+                <Link
+                    href={`/registries/${registryId}`}
+                    className="mb-5 inline-flex items-center btn"
+                >
+                    ← Return To Registry
+                </Link>
+                <RegistryRemoveButton registryId={registryId} />
+            </div>
+
             <h1 className="text-2xl">Share Your Registry:</h1>
             <div className="mb-10">
                 <UsersWithAccess

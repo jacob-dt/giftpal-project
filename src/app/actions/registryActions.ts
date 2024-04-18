@@ -48,9 +48,14 @@ export async function deleteUserFromRegistry(
     userEmail: string
 ) {
     const room = await liveblocksClient.getRoom(registryId);
-    const usersAccesses = room.usersAccesses;
+    const usersAccesses: any = room.usersAccesses;
     delete usersAccesses[userEmail];
     console.log({ usersAccesses });
     await liveblocksClient.updateRoom(registryId, { usersAccesses });
+    return true;
+}
+
+export async function removeRegistry(registryId: string) {
+    await liveblocksClient.deleteRoom(registryId);
     return true;
 }

@@ -1,11 +1,10 @@
 "use client";
-
+import { useRouter } from "next/navigation";
+import { RoomAccesses } from "@liveblocks/node";
 import {
     deleteUserFromRegistry,
-    updateRegistry,
+    removeRegistry,
 } from "@/app/actions/registryActions";
-import { RoomAccesses } from "@liveblocks/node";
-import { useRouter } from "next/navigation";
 
 export default function UsersWithAccess({
     registryId,
@@ -16,10 +15,7 @@ export default function UsersWithAccess({
 }) {
     const router = useRouter();
     async function deleteUserHandler(userEmailToDelete: string) {
-        const usersAccessesCopy = { ...usersAccesses };
-        usersAccessesCopy[userEmailToDelete] = ["room:write"];
-        delete usersAccessesCopy[userEmailToDelete];
-        await updateRegistry(registryId, { usersAccesses: usersAccessesCopy });
+        await deleteUserFromRegistry(registryId, userEmailToDelete);
         router.refresh();
     }
     return (
