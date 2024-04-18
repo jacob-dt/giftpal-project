@@ -30,7 +30,7 @@ export default function SectionCreationForm() {
 
     return (
         <form onSubmit={newSectionHandler} className="max-w-xs">
-            <label className="flex flex-col items-center justify-center block mb-2">
+            <label className="flex flex-col items-center justify-center mb-2">
                 <span className="block mb-1">Create Section</span>
                 <input type="text" placeholder="'buy', 'purchased', etc.." />
             </label>
