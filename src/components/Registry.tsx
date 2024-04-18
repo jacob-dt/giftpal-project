@@ -11,6 +11,7 @@ import { FormEvent, useState } from "react";
 import { updateRegistry } from "@/app/actions/registryActions";
 import { metadata } from "@/app/layout";
 import { useRouter } from "next/navigation";
+import { RegistryContextProvider } from "./RegistryContext";
 
 export default function Registry({ id, name }: { id: string; name: string }) {
     const [registryTitleRenameMode, setRegistryTitleRenameMode] =
@@ -33,43 +34,48 @@ export default function Registry({ id, name }: { id: string; name: string }) {
     }
 
     return (
-        <RoomProvider
-            id={id}
-            initialPresence={{}}
-            initialStorage={{
-                sections: new LiveList(),
-                gifts: new LiveList(),
-            }}
-        >
-            <ClientSideSuspense fallback={<div>pending</div>}>
-                {() => (
-                    <>
-                        <div className="flex gap-2 items-center mb-5">
-                            {!registryTitleRenameMode && (
-                                <h1
-                                    onClick={() =>
-                                        setRegistryTitleRenameMode(true)
-                                    }
-                                    className="text-2xl"
-                                >
-                                    {name}
-                                </h1>
-                            )}
-                            {registryTitleRenameMode && (
-                                <form onSubmit={registryTitleSubmitHandler}>
-                                    <input type="text" defaultValue={name} />
-                                </form>
-                            )}
+        <RegistryContextProvider>
+            <RoomProvider
+                id={id}
+                initialPresence={{}}
+                initialStorage={{
+                    sections: new LiveList(),
+                    gifts: new LiveList(),
+                }}
+            >
+                <ClientSideSuspense fallback={<div>pending</div>}>
+                    {() => (
+                        <>
+                            <div className="flex gap-2 items-center mb-5">
+                                {!registryTitleRenameMode && (
+                                    <h1
+                                        onClick={() =>
+                                            setRegistryTitleRenameMode(true)
+                                        }
+                                        className="text-2xl"
+                                    >
+                                        {name}
+                                    </h1>
+                                )}
+                                {registryTitleRenameMode && (
+                                    <form onSubmit={registryTitleSubmitHandler}>
+                                        <input
+                                            type="text"
+                                            defaultValue={name}
+                                        />
+                                    </form>
+                                )}
 
-                            <Link href={`/registries/${id}/settings`}>
-                                <FontAwesomeIcon icon={faGear} />
-                            </Link>
-                        </div>
+                                <Link href={`/registries/${id}/settings`}>
+                                    <FontAwesomeIcon icon={faGear} />
+                                </Link>
+                            </div>
 
-                        <Sections />
-                    </>
-                )}
-            </ClientSideSuspense>
-        </RoomProvider>
+                            <Sections />
+                        </>
+                    )}
+                </ClientSideSuspense>
+            </RoomProvider>
+        </RegistryContextProvider>
     );
 }

@@ -1,6 +1,21 @@
+import { useParams, useRouter } from "next/navigation";
+import { useContext, useEffect } from "react";
+import { RegistryContext, RegistryContextProps } from "../RegistryContext";
+
 export default function GiftModal() {
+    const router = useRouter();
+    const params = useParams();
+    const { setGiftOpenMode } =
+        useContext<RegistryContextProps>(RegistryContext);
+
+    useEffect(() => {
+        if (params.giftId && setGiftOpenMode) {
+            setGiftOpenMode(params.giftId.toString());
+        }
+    }, [params]);
+
     function giftBackgroundClickHandler() {
-        alert("back");
+        router.back();
     }
 
     return (
