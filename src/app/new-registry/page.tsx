@@ -6,8 +6,10 @@ import { registryCreator } from "../actions/registryActions";
 export default function NewRegistryPage() {
     async function newRegistryButtonHandler(formData: FormData) {
         const nameOfRegistry = formData.get("name")?.toString() || "";
-        const { id } = await registryCreator(nameOfRegistry);
-        redirect(`/registries/${id}`);
+        const roomInfo = await registryCreator(nameOfRegistry);
+        if (roomInfo) {
+            redirect(`/registries/${roomInfo.id}`);
+        }
     }
 
     return (

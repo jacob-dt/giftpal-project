@@ -6,9 +6,7 @@ import { getServerSession } from "next-auth";
 import { authorizationOptions } from "@/lib/authorizationOptions";
 import { liveblocksClient, newLiveBlocksClient } from "@/lib/liveblocksClient";
 
-export async function registryCreator(
-    name: string
-): Promise<boolean | RoomInfo> {
+export async function registryCreator(name: string): Promise<false | RoomInfo> {
     const liveblocksClient = new Liveblocks({
         secret: process.env.LIVEBLOCKS_SECRET_KEY || "",
     });
