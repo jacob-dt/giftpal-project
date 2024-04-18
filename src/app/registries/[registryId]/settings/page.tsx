@@ -22,12 +22,12 @@ export default async function RegistrySettings({ params }: PageProps) {
     }
     return (
         <div className="flex flex-col items-center justify-center">
-            <div className="flex justify-between">
+            <div className="flex justify-between gap-4">
                 <Link
                     href={`/registries/${registryId}`}
                     className="mb-5 inline-flex items-center btn"
                 >
-                    ← Return To Registry
+                    Return To Registry
                 </Link>
                 <RegistryRemoveButton registryId={registryId} />
             </div>
