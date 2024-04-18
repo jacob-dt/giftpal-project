@@ -32,9 +32,5 @@ export const {
     useStorage,
     useMutation,
     useRoom,
-    /* ...all the other hooks you’re using... */
-} = createRoomContext<
-    Presence,
-    Storage
-    /* UserMeta, RoomEvent, ThreadMetadata */
->(client);
+    useSelf,
+} = createRoomContext<Presence, Storage>(client);

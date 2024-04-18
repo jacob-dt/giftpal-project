@@ -5,6 +5,7 @@ import { Gift, useMutation, useStorage } from "@/app/liveblocks.config";
 import { shallow } from "@liveblocks/core";
 import ConfirmGiftDelete from "../ConfirmGiftDelete";
 import ButtonCancelGiftEdit from "../ButtonCancelGiftEdit";
+import GiftPurchaseLinkSection from "../GiftPurchaseLinkSection";
 
 export default function GiftModal() {
     const router = useRouter();
@@ -74,7 +75,7 @@ export default function GiftModal() {
             >
                 {!editorMode && (
                     <div className="flex justify-between items-center">
-                        <h4>{gift?.name}</h4>
+                        <h4 className="text-xl">{gift?.name}</h4>
                         <button
                             onClick={() => setEditorMode(true)}
                             className="bg-green-600 py-1 px-3 rounded-lg"
@@ -103,7 +104,12 @@ export default function GiftModal() {
                         />
                     </div>
                 )}
-                {!editorMode && <div></div>}
+                {!editorMode && (
+                    <div>
+                        <h2 className="mt-2">Purchase Link:</h2>
+                        <GiftPurchaseLinkSection />
+                    </div>
+                )}
             </div>
         </div>
     );
