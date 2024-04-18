@@ -6,6 +6,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import { Doc } from "yjs";
 import { Placeholder } from "@tiptap/extension-placeholder";
 import { useSelf } from "@/app/liveblocks.config";
+import { Link } from "@tiptap/extension-link";
 
 type EditSectionProps = {
     doc: Doc;
@@ -40,6 +41,9 @@ export default function GiftPurchaseEditSection({
             CollaborationCursor.configure({
                 provider,
                 user: userInformation,
+            }),
+            Link.configure({
+                openOnClick: true,
             }),
         ],
     });
