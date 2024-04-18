@@ -5,13 +5,6 @@ import { ClientSideSuspense } from "@liveblocks/react";
 import Sections from "./Sections";
 import { RoomProvider } from "@/app/liveblocks.config";
 
-export type GiftType = {
-    name: string;
-    id: string | number;
-    index: number;
-    sectionId: string;
-};
-
 export default function Registry({ id }: { id: string }) {
     return (
         <RoomProvider

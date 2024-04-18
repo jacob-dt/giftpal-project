@@ -11,7 +11,7 @@ export default function SectionCreationForm() {
             new LiveObject({
                 name: sectionName,
                 id: uniqid.time(),
-                index: 0,
+                index: 9999,
             })
         );
     }, []);
@@ -30,8 +30,8 @@ export default function SectionCreationForm() {
 
     return (
         <form onSubmit={newSectionHandler} className="max-w-xs">
-            <label className="block mb-2">
-                <span className="block">Section Name:</span>
+            <label className="flex flex-col items-center justify-center block mb-2">
+                <span className="block mb-1">Create Section</span>
                 <input type="text" placeholder="'buy', 'purchased', etc.." />
             </label>
             <button type="submit" className="w-full block">

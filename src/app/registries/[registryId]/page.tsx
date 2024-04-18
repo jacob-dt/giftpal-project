@@ -22,8 +22,11 @@ export default async function RegistryPage(props: PageProps) {
         return <div>You Do Not Have Access To This Registry</div>;
     }
     return (
-        <div>
-            {registryInformation.metadata.registryName}
+        <div className="flex flex-col justify-center items-center">
+            <div className="text-3xl mb-6">
+                {registryInformation.metadata.registryName}
+            </div>
+
             <Registry id={registryId} />
         </div>
     );

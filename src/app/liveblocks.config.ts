@@ -8,7 +8,7 @@ const client = createClient({
 
 type Presence = {};
 
-type Section = {
+export type Section = {
     name: string;
     id: string;
     index: number;
@@ -19,7 +19,7 @@ type Storage = {
     gifts: LiveList<LiveObject<Gift>>;
 };
 
-type Gift = {
+export type Gift = {
     name: string;
     id: string;
     index: number;
