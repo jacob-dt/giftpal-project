@@ -1,15 +1,31 @@
 "use client";
 
+import uniqid from "uniqid";
+import { useMutation } from "@/app/liveblocks.config";
 import { FormEvent } from "react";
+import { LiveObject } from "@liveblocks/core";
 
 export default function SectionCreationForm() {
+    const addNewSection = useMutation(({ storage }, sectionName) => {
+        return storage.get("sections").push(
+            new LiveObject({
+                name: sectionName,
+                id: uniqid.time(),
+                index: 0,
+            })
+        );
+    }, []);
+
     function newSectionHandler(event: FormEvent) {
         event.preventDefault();
         const sectionInput = (event.target as HTMLFormElement).querySelector(
             "input"
         );
-        const sectionName = sectionInput?.value;
-        alert("new section: " + sectionName);
+        if (sectionInput) {
+            const sectionName = sectionInput?.value;
+            addNewSection(sectionName);
+            sectionInput.value = "";
+        }
     }
 
     return (
